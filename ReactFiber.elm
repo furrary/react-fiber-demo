@@ -35,14 +35,7 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         SetStartTime time ->
-            update (SetCurrentTime time)
-                { model
-                    | startTime =
-                        if model.startTime == 0 then
-                            time
-                        else
-                            model.startTime
-                }
+            update (SetCurrentTime time) { model | startTime = model.startTime }
 
         SetCurrentTime time ->
             ( { model | currentTime = time }, Cmd.none )
@@ -75,7 +68,7 @@ view : Model -> Html Msg
 view model =
     let
         elapsedTime =
-            Time.inSeconds (model.currentTime - model.startTime)
+            Time.inSeconds model.currentTime - model.startTime
 
         remainder =
             elapsedTime
@@ -170,7 +163,7 @@ subscriptions model =
         fps =
             60
     in
-    Time.every (Time.second / fps) SetStartTime
+    Time.every (Time.second / fps) SetCurrentTime
 
 
 init : ( Model, Cmd Msg )
