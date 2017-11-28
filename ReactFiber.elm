@@ -3,6 +3,7 @@ module ReactFiber exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (style)
 import Html.Events exposing (onMouseEnter, onMouseLeave)
+import Html.Lazy as Lazy
 import Task
 import Time exposing (Time)
 
@@ -91,7 +92,7 @@ view model =
             "scaleX(" ++ toString (scale / 2.1) ++ ") scaleY(0.7) translateZ(0.1px)"
     in
     div [ style <| ( "transform", transform ) :: containerStyleList ]
-        [ div [] <| sierpinskiTriangle model.hoveredNode 0 0 1000 <| toString <| floor remainder
+        [ Lazy.lazy2 sierpinskiWrapper model.hoveredNode <| toString <| floor remainder
         ]
 
 
@@ -137,6 +138,11 @@ dot isHovered ( x, y ) text =
                 text
             )
         ]
+
+
+sierpinskiWrapper : Maybe ( Float, Float ) -> String -> Html Msg
+sierpinskiWrapper hoveredNode text =
+    div [] <| sierpinskiTriangle hoveredNode 0 0 1000 text
 
 
 sierpinskiTriangle : Maybe ( Float, Float ) -> Float -> Float -> Float -> String -> List (Html Msg)

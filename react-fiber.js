@@ -2073,11 +2073,8 @@ var _elm_lang$core$List$sort = function (xs) {
 	return A2(_elm_lang$core$List$sortBy, _elm_lang$core$Basics$identity, xs);
 };
 var _elm_lang$core$List$singleton = function (value) {
-	return {
-		ctor: '::',
-		_0: value,
-		_1: {ctor: '[]'}
-	};
+	return _elm_lang$core$Native_List.fromArray(
+		[value]);
 };
 var _elm_lang$core$List$drop = F2(
 	function (n, list) {
@@ -2246,7 +2243,8 @@ var _elm_lang$core$List$map = F2(
 						_1: acc
 					};
 				}),
-			{ctor: '[]'},
+			_elm_lang$core$Native_List.fromArray(
+				[]),
 			xs);
 	});
 var _elm_lang$core$List$filter = F2(
@@ -2258,7 +2256,8 @@ var _elm_lang$core$List$filter = F2(
 		return A3(
 			_elm_lang$core$List$foldr,
 			conditionalCons,
-			{ctor: '[]'},
+			_elm_lang$core$Native_List.fromArray(
+				[]),
 			xs);
 	});
 var _elm_lang$core$List$maybeCons = F3(
@@ -2275,7 +2274,8 @@ var _elm_lang$core$List$filterMap = F2(
 		return A3(
 			_elm_lang$core$List$foldr,
 			_elm_lang$core$List$maybeCons(f),
-			{ctor: '[]'},
+			_elm_lang$core$Native_List.fromArray(
+				[]),
 			xs);
 	});
 var _elm_lang$core$List$reverse = function (list) {
@@ -2285,7 +2285,8 @@ var _elm_lang$core$List$reverse = function (list) {
 			function (x, y) {
 				return {ctor: '::', _0: x, _1: y};
 			}),
-		{ctor: '[]'},
+		_elm_lang$core$Native_List.fromArray(
+			[]),
 		list);
 };
 var _elm_lang$core$List$scanl = F3(
@@ -2300,18 +2301,16 @@ var _elm_lang$core$List$scanl = F3(
 						_1: accAcc
 					};
 				} else {
-					return {ctor: '[]'};
+					return _elm_lang$core$Native_List.fromArray(
+						[]);
 				}
 			});
 		return _elm_lang$core$List$reverse(
 			A3(
 				_elm_lang$core$List$foldl,
 				scan1,
-				{
-					ctor: '::',
-					_0: b,
-					_1: {ctor: '[]'}
-				},
+				_elm_lang$core$Native_List.fromArray(
+					[b]),
 				xs));
 	});
 var _elm_lang$core$List$append = F2(
@@ -2334,7 +2333,8 @@ var _elm_lang$core$List$concat = function (lists) {
 	return A3(
 		_elm_lang$core$List$foldr,
 		_elm_lang$core$List$append,
-		{ctor: '[]'},
+		_elm_lang$core$Native_List.fromArray(
+			[]),
 		lists);
 };
 var _elm_lang$core$List$concatMap = F2(
@@ -2364,8 +2364,10 @@ var _elm_lang$core$List$partition = F2(
 			step,
 			{
 				ctor: '_Tuple2',
-				_0: {ctor: '[]'},
-				_1: {ctor: '[]'}
+				_0: _elm_lang$core$Native_List.fromArray(
+					[]),
+				_1: _elm_lang$core$Native_List.fromArray(
+					[])
 			},
 			list);
 	});
@@ -2385,8 +2387,10 @@ var _elm_lang$core$List$unzip = function (pairs) {
 		step,
 		{
 			ctor: '_Tuple2',
-			_0: {ctor: '[]'},
-			_1: {ctor: '[]'}
+			_0: _elm_lang$core$Native_List.fromArray(
+				[]),
+			_1: _elm_lang$core$Native_List.fromArray(
+				[])
 		},
 		pairs);
 };
@@ -2394,7 +2398,8 @@ var _elm_lang$core$List$intersperse = F2(
 	function (sep, xs) {
 		var _p21 = xs;
 		if (_p21.ctor === '[]') {
-			return {ctor: '[]'};
+			return _elm_lang$core$Native_List.fromArray(
+				[]);
 		} else {
 			var step = F2(
 				function (x, rest) {
@@ -2407,7 +2412,8 @@ var _elm_lang$core$List$intersperse = F2(
 			var spersed = A3(
 				_elm_lang$core$List$foldr,
 				step,
-				{ctor: '[]'},
+				_elm_lang$core$Native_List.fromArray(
+					[]),
 				_p21._1);
 			return {ctor: '::', _0: _p21._0, _1: spersed};
 		}
@@ -2441,12 +2447,14 @@ var _elm_lang$core$List$takeTailRec = F2(
 				_elm_lang$core$List$takeReverse,
 				n,
 				list,
-				{ctor: '[]'}));
+				_elm_lang$core$Native_List.fromArray(
+					[])));
 	});
 var _elm_lang$core$List$takeFast = F3(
 	function (ctr, n, list) {
 		if (_elm_lang$core$Native_Utils.cmp(n, 0) < 1) {
-			return {ctor: '[]'};
+			return _elm_lang$core$Native_List.fromArray(
+				[]);
 		} else {
 			var _p23 = {ctor: '_Tuple2', _0: n, _1: list};
 			_v26_5:
@@ -2462,30 +2470,12 @@ var _elm_lang$core$List$takeFast = F3(
 									case 1:
 										break _v26_1;
 									case 2:
-										return {
-											ctor: '::',
-											_0: _p23._1._0,
-											_1: {
-												ctor: '::',
-												_0: _p23._1._1._0,
-												_1: {ctor: '[]'}
-											}
-										};
+										return _elm_lang$core$Native_List.fromArray(
+											[_p23._1._0, _p23._1._1._0]);
 									case 3:
 										if (_p23._1._1._1.ctor === '::') {
-											return {
-												ctor: '::',
-												_0: _p23._1._0,
-												_1: {
-													ctor: '::',
-													_0: _p23._1._1._0,
-													_1: {
-														ctor: '::',
-														_0: _p23._1._1._1._0,
-														_1: {ctor: '[]'}
-													}
-												}
-											};
+											return _elm_lang$core$Native_List.fromArray(
+												[_p23._1._0, _p23._1._1._0, _p23._1._1._1._0]);
 										} else {
 											break _v26_5;
 										}
@@ -2545,11 +2535,8 @@ var _elm_lang$core$List$takeFast = F3(
 						break _v26_5;
 					}
 				} while(false);
-				return {
-					ctor: '::',
-					_0: _p23._1._0,
-					_1: {ctor: '[]'}
-				};
+				return _elm_lang$core$Native_List.fromArray(
+					[_p23._1._0]);
 			} while(false);
 			return list;
 		}
@@ -2579,7 +2566,8 @@ var _elm_lang$core$List$repeat = F2(
 	function (n, value) {
 		return A3(
 			_elm_lang$core$List$repeatHelp,
-			{ctor: '[]'},
+			_elm_lang$core$Native_List.fromArray(
+				[]),
 			n,
 			value);
 	});
@@ -2606,7 +2594,8 @@ var _elm_lang$core$List$range = F2(
 			_elm_lang$core$List$rangeHelp,
 			lo,
 			hi,
-			{ctor: '[]'});
+			_elm_lang$core$Native_List.fromArray(
+				[]));
 	});
 var _elm_lang$core$List$indexedMap = F2(
 	function (f, xs) {
@@ -3575,7 +3564,8 @@ return {
 
 var _elm_lang$core$Platform_Cmd$batch = _elm_lang$core$Native_Platform.batch;
 var _elm_lang$core$Platform_Cmd$none = _elm_lang$core$Platform_Cmd$batch(
-	{ctor: '[]'});
+	_elm_lang$core$Native_List.fromArray(
+		[]));
 var _elm_lang$core$Platform_Cmd_ops = _elm_lang$core$Platform_Cmd_ops || {};
 _elm_lang$core$Platform_Cmd_ops['!'] = F2(
 	function (model, commands) {
@@ -3590,7 +3580,8 @@ var _elm_lang$core$Platform_Cmd$Cmd = {ctor: 'Cmd'};
 
 var _elm_lang$core$Platform_Sub$batch = _elm_lang$core$Native_Platform.batch;
 var _elm_lang$core$Platform_Sub$none = _elm_lang$core$Platform_Sub$batch(
-	{ctor: '[]'});
+	_elm_lang$core$Native_List.fromArray(
+		[]));
 var _elm_lang$core$Platform_Sub$map = _elm_lang$core$Native_Platform.map;
 var _elm_lang$core$Platform_Sub$Sub = {ctor: 'Sub'};
 
@@ -3873,7 +3864,8 @@ var _elm_lang$core$Task$sequence = function (tasks) {
 	var _p3 = tasks;
 	if (_p3.ctor === '[]') {
 		return _elm_lang$core$Task$succeed(
-			{ctor: '[]'});
+			_elm_lang$core$Native_List.fromArray(
+				[]));
 	} else {
 		return A3(
 			_elm_lang$core$Task$map2,
@@ -4386,7 +4378,8 @@ var _elm_lang$core$Dict$keys = function (dict) {
 			function (key, value, keyList) {
 				return {ctor: '::', _0: key, _1: keyList};
 			}),
-		{ctor: '[]'},
+		_elm_lang$core$Native_List.fromArray(
+			[]),
 		dict);
 };
 var _elm_lang$core$Dict$values = function (dict) {
@@ -4396,7 +4389,8 @@ var _elm_lang$core$Dict$values = function (dict) {
 			function (key, value, valueList) {
 				return {ctor: '::', _0: value, _1: valueList};
 			}),
-		{ctor: '[]'},
+		_elm_lang$core$Native_List.fromArray(
+			[]),
 		dict);
 };
 var _elm_lang$core$Dict$toList = function (dict) {
@@ -4410,7 +4404,8 @@ var _elm_lang$core$Dict$toList = function (dict) {
 					_1: list
 				};
 			}),
-		{ctor: '[]'},
+		_elm_lang$core$Native_List.fromArray(
+			[]),
 		dict);
 };
 var _elm_lang$core$Dict$foldl = F3(
@@ -4510,43 +4505,18 @@ var _elm_lang$core$Dict$reportRemBug = F4(
 	function (msg, c, lgot, rgot) {
 		return _elm_lang$core$Native_Debug.crash(
 			_elm_lang$core$String$concat(
-				{
-					ctor: '::',
-					_0: 'Internal red-black tree invariant violated, expected ',
-					_1: {
-						ctor: '::',
-						_0: msg,
-						_1: {
-							ctor: '::',
-							_0: ' and got ',
-							_1: {
-								ctor: '::',
-								_0: _elm_lang$core$Basics$toString(c),
-								_1: {
-									ctor: '::',
-									_0: '/',
-									_1: {
-										ctor: '::',
-										_0: lgot,
-										_1: {
-											ctor: '::',
-											_0: '/',
-											_1: {
-												ctor: '::',
-												_0: rgot,
-												_1: {
-													ctor: '::',
-													_0: '\nPlease report this bug to <https://github.com/elm-lang/core/issues>',
-													_1: {ctor: '[]'}
-												}
-											}
-										}
-									}
-								}
-							}
-						}
-					}
-				}));
+				_elm_lang$core$Native_List.fromArray(
+					[
+						'Internal red-black tree invariant violated, expected ',
+						msg,
+						' and got ',
+						_elm_lang$core$Basics$toString(c),
+						'/',
+						lgot,
+						'/',
+						rgot,
+						'\nPlease report this bug to <https://github.com/elm-lang/core/issues>'
+					])));
 	});
 var _elm_lang$core$Dict$isBBlack = function (dict) {
 	var _p13 = dict;
@@ -5334,11 +5304,8 @@ var _elm_lang$core$Time$addMySub = F2(
 			return A3(
 				_elm_lang$core$Dict$insert,
 				_p5,
-				{
-					ctor: '::',
-					_0: _p6,
-					_1: {ctor: '[]'}
-				},
+				_elm_lang$core$Native_List.fromArray(
+					[_p6]),
 				state);
 		} else {
 			return A3(
@@ -5446,7 +5413,8 @@ var _elm_lang$core$Time$onEffects = F3(
 			_p10.processes,
 			{
 				ctor: '_Tuple3',
-				_0: {ctor: '[]'},
+				_0: _elm_lang$core$Native_List.fromArray(
+					[]),
 				_1: _elm_lang$core$Dict$empty,
 				_2: _elm_lang$core$Task$succeed(
 					{ctor: '_Tuple0'})
@@ -6126,15 +6094,11 @@ var _elm_lang$core$Json_Decode$list = function (decoder) {
 };
 var _elm_lang$core$Json_Decode$nullable = function (decoder) {
 	return _elm_lang$core$Json_Decode$oneOf(
-		{
-			ctor: '::',
-			_0: _elm_lang$core$Json_Decode$null(_elm_lang$core$Maybe$Nothing),
-			_1: {
-				ctor: '::',
-				_0: A2(_elm_lang$core$Json_Decode$map, _elm_lang$core$Maybe$Just, decoder),
-				_1: {ctor: '[]'}
-			}
-		});
+		_elm_lang$core$Native_List.fromArray(
+			[
+				_elm_lang$core$Json_Decode$null(_elm_lang$core$Maybe$Nothing),
+				A2(_elm_lang$core$Json_Decode$map, _elm_lang$core$Maybe$Just, decoder)
+			]));
 };
 var _elm_lang$core$Json_Decode$float = _elm_lang$core$Native_Json.decodePrimitive('float');
 var _elm_lang$core$Json_Decode$int = _elm_lang$core$Native_Json.decodePrimitive('int');
@@ -8091,13 +8055,15 @@ var _elm_lang$html$Html$beginnerProgram = function (_p0) {
 			init: A2(
 				_elm_lang$core$Platform_Cmd_ops['!'],
 				_p1.model,
-				{ctor: '[]'}),
+				_elm_lang$core$Native_List.fromArray(
+					[])),
 			update: F2(
 				function (msg, model) {
 					return A2(
 						_elm_lang$core$Platform_Cmd_ops['!'],
 						A2(_p1.update, msg, model),
-						{ctor: '[]'});
+						_elm_lang$core$Native_List.fromArray(
+							[]));
 				}),
 			view: _p1.view,
 			subscriptions: function (_p2) {
@@ -8560,27 +8526,13 @@ var _elm_lang$html$Html_Attributes$style = _elm_lang$virtual_dom$VirtualDom$styl
 var _elm_lang$html$Html_Events$keyCode = A2(_elm_lang$core$Json_Decode$field, 'keyCode', _elm_lang$core$Json_Decode$int);
 var _elm_lang$html$Html_Events$targetChecked = A2(
 	_elm_lang$core$Json_Decode$at,
-	{
-		ctor: '::',
-		_0: 'target',
-		_1: {
-			ctor: '::',
-			_0: 'checked',
-			_1: {ctor: '[]'}
-		}
-	},
+	_elm_lang$core$Native_List.fromArray(
+		['target', 'checked']),
 	_elm_lang$core$Json_Decode$bool);
 var _elm_lang$html$Html_Events$targetValue = A2(
 	_elm_lang$core$Json_Decode$at,
-	{
-		ctor: '::',
-		_0: 'target',
-		_1: {
-			ctor: '::',
-			_0: 'value',
-			_1: {ctor: '[]'}
-		}
-	},
+	_elm_lang$core$Native_List.fromArray(
+		['target', 'value']),
 	_elm_lang$core$Json_Decode$string);
 var _elm_lang$html$Html_Events$defaultOptions = _elm_lang$virtual_dom$VirtualDom$defaultOptions;
 var _elm_lang$html$Html_Events$onWithOptions = _elm_lang$virtual_dom$VirtualDom$onWithOptions;
@@ -8672,52 +8624,27 @@ var _elm_lang$html$Html_Events$Options = F2(
 		return {stopPropagation: a, preventDefault: b};
 	});
 
-var _furrary$react_fiber_demo$ReactFiber$dotStyleList = {
-	ctor: '::',
-	_0: {ctor: '_Tuple2', _0: 'position', _1: 'absolute'},
-	_1: {
-		ctor: '::',
-		_0: {ctor: '_Tuple2', _0: 'font', _1: 'normal 15px sans-serif'},
-		_1: {
-			ctor: '::',
-			_0: {ctor: '_Tuple2', _0: 'textAlign', _1: 'center'},
-			_1: {
-				ctor: '::',
-				_0: {ctor: '_Tuple2', _0: 'cursor', _1: 'pointer'},
-				_1: {ctor: '[]'}
-			}
-		}
-	}
-};
-var _furrary$react_fiber_demo$ReactFiber$containerStyleList = {
-	ctor: '::',
-	_0: {ctor: '_Tuple2', _0: 'position', _1: 'absolute'},
-	_1: {
-		ctor: '::',
-		_0: {ctor: '_Tuple2', _0: 'transformOrigin', _1: '0 0'},
-		_1: {
-			ctor: '::',
-			_0: {ctor: '_Tuple2', _0: 'left', _1: '50%'},
-			_1: {
-				ctor: '::',
-				_0: {ctor: '_Tuple2', _0: 'top', _1: '50%'},
-				_1: {
-					ctor: '::',
-					_0: {ctor: '_Tuple2', _0: 'width', _1: '10px'},
-					_1: {
-						ctor: '::',
-						_0: {ctor: '_Tuple2', _0: 'height', _1: '10px'},
-						_1: {
-							ctor: '::',
-							_0: {ctor: '_Tuple2', _0: 'background', _1: '#eee'},
-							_1: {ctor: '[]'}
-						}
-					}
-				}
-			}
-		}
-	}
-};
+var _elm_lang$html$Html_Lazy$lazy3 = _elm_lang$virtual_dom$VirtualDom$lazy3;
+var _elm_lang$html$Html_Lazy$lazy2 = _elm_lang$virtual_dom$VirtualDom$lazy2;
+var _elm_lang$html$Html_Lazy$lazy = _elm_lang$virtual_dom$VirtualDom$lazy;
+
+var _furrary$react_fiber_demo$ReactFiber$dotStyleList = _elm_lang$core$Native_List.fromArray(
+	[
+		{ctor: '_Tuple2', _0: 'position', _1: 'absolute'},
+		{ctor: '_Tuple2', _0: 'font', _1: 'normal 15px sans-serif'},
+		{ctor: '_Tuple2', _0: 'textAlign', _1: 'center'},
+		{ctor: '_Tuple2', _0: 'cursor', _1: 'pointer'}
+	]);
+var _furrary$react_fiber_demo$ReactFiber$containerStyleList = _elm_lang$core$Native_List.fromArray(
+	[
+		{ctor: '_Tuple2', _0: 'position', _1: 'absolute'},
+		{ctor: '_Tuple2', _0: 'transformOrigin', _1: '0 0'},
+		{ctor: '_Tuple2', _0: 'left', _1: '50%'},
+		{ctor: '_Tuple2', _0: 'top', _1: '50%'},
+		{ctor: '_Tuple2', _0: 'width', _1: '10px'},
+		{ctor: '_Tuple2', _0: 'height', _1: '10px'},
+		{ctor: '_Tuple2', _0: 'background', _1: '#eee'}
+	]);
 var _furrary$react_fiber_demo$ReactFiber$targetSize = 25;
 var _furrary$react_fiber_demo$ReactFiber$Model = F3(
 	function (a, b, c) {
@@ -8735,15 +8662,15 @@ var _furrary$react_fiber_demo$ReactFiber$dot = F3(
 		var size = _furrary$react_fiber_demo$ReactFiber$targetSize * 1.3;
 		return A2(
 			_elm_lang$html$Html$div,
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$style(
+			_elm_lang$core$Native_List.fromArray(
+				[
+					_elm_lang$html$Html_Attributes$style(
 					A2(
 						_elm_lang$core$Basics_ops['++'],
 						_furrary$react_fiber_demo$ReactFiber$dotStyleList,
-						{
-							ctor: '::',
-							_0: {
+						_elm_lang$core$Native_List.fromArray(
+							[
+								{
 								ctor: '_Tuple2',
 								_0: 'width',
 								_1: A2(
@@ -8751,101 +8678,73 @@ var _furrary$react_fiber_demo$ReactFiber$dot = F3(
 									_elm_lang$core$Basics$toString(size),
 									'px')
 							},
-							_1: {
-								ctor: '::',
-								_0: {
-									ctor: '_Tuple2',
-									_0: 'height',
-									_1: A2(
-										_elm_lang$core$Basics_ops['++'],
-										_elm_lang$core$Basics$toString(size),
-										'px')
-								},
-								_1: {
-									ctor: '::',
-									_0: {
-										ctor: '_Tuple2',
-										_0: 'left',
-										_1: A2(
-											_elm_lang$core$Basics_ops['++'],
-											_elm_lang$core$Basics$toString(_p2),
-											'px')
-									},
-									_1: {
-										ctor: '::',
-										_0: {
-											ctor: '_Tuple2',
-											_0: 'top',
-											_1: A2(
-												_elm_lang$core$Basics_ops['++'],
-												_elm_lang$core$Basics$toString(_p3),
-												'px')
-										},
-										_1: {
-											ctor: '::',
-											_0: {ctor: '_Tuple2', _0: 'border-radius', _1: '50%'},
-											_1: {
-												ctor: '::',
-												_0: {
-													ctor: '_Tuple2',
-													_0: 'lineHeight',
-													_1: A2(
-														_elm_lang$core$Basics_ops['++'],
-														_elm_lang$core$Basics$toString(size),
-														'px')
-												},
-												_1: {
-													ctor: '::',
-													_0: {
-														ctor: '_Tuple2',
-														_0: 'background',
-														_1: isHovered ? '#ff0' : '#61dafb'
-													},
-													_1: {ctor: '[]'}
-												}
-											}
-										}
-									}
-								}
+								{
+								ctor: '_Tuple2',
+								_0: 'height',
+								_1: A2(
+									_elm_lang$core$Basics_ops['++'],
+									_elm_lang$core$Basics$toString(size),
+									'px')
+							},
+								{
+								ctor: '_Tuple2',
+								_0: 'left',
+								_1: A2(
+									_elm_lang$core$Basics_ops['++'],
+									_elm_lang$core$Basics$toString(_p2),
+									'px')
+							},
+								{
+								ctor: '_Tuple2',
+								_0: 'top',
+								_1: A2(
+									_elm_lang$core$Basics_ops['++'],
+									_elm_lang$core$Basics$toString(_p3),
+									'px')
+							},
+								{ctor: '_Tuple2', _0: 'border-radius', _1: '50%'},
+								{
+								ctor: '_Tuple2',
+								_0: 'lineHeight',
+								_1: A2(
+									_elm_lang$core$Basics_ops['++'],
+									_elm_lang$core$Basics$toString(size),
+									'px')
+							},
+								{
+								ctor: '_Tuple2',
+								_0: 'background',
+								_1: isHovered ? '#ff0' : '#61dafb'
 							}
-						})),
-				_1: {
-					ctor: '::',
-					_0: _elm_lang$html$Html_Events$onMouseEnter(
-						_furrary$react_fiber_demo$ReactFiber$Hover(
-							{ctor: '_Tuple2', _0: _p2, _1: _p3})),
-					_1: {
-						ctor: '::',
-						_0: _elm_lang$html$Html_Events$onMouseLeave(_furrary$react_fiber_demo$ReactFiber$UnHover),
-						_1: {ctor: '[]'}
-					}
-				}
-			},
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html$text(
+							]))),
+					_elm_lang$html$Html_Events$onMouseEnter(
+					_furrary$react_fiber_demo$ReactFiber$Hover(
+						{ctor: '_Tuple2', _0: _p2, _1: _p3})),
+					_elm_lang$html$Html_Events$onMouseLeave(_furrary$react_fiber_demo$ReactFiber$UnHover)
+				]),
+			_elm_lang$core$Native_List.fromArray(
+				[
+					_elm_lang$html$Html$text(
 					isHovered ? A2(
 						_elm_lang$core$Basics_ops['++'],
 						'*',
-						A2(_elm_lang$core$Basics_ops['++'], text, '*')) : text),
-				_1: {ctor: '[]'}
-			});
+						A2(_elm_lang$core$Basics_ops['++'], text, '*')) : text)
+				]));
 	});
 var _furrary$react_fiber_demo$ReactFiber$sierpinskiTriangle = F5(
 	function (hoveredNode, x, y, size, text) {
 		if (_elm_lang$core$Native_Utils.cmp(size, _furrary$react_fiber_demo$ReactFiber$targetSize) < 1) {
 			var coord = {ctor: '_Tuple2', _0: x - (_furrary$react_fiber_demo$ReactFiber$targetSize / 2), _1: y - (_furrary$react_fiber_demo$ReactFiber$targetSize / 2)};
-			return {
-				ctor: '::',
-				_0: A3(
+			return _elm_lang$core$Native_List.fromArray(
+				[
+					A3(
 					_furrary$react_fiber_demo$ReactFiber$dot,
 					_elm_lang$core$Native_Utils.eq(
 						hoveredNode,
 						_elm_lang$core$Maybe$Just(coord)),
 					coord,
-					text),
-				_1: {ctor: '[]'}
-			};
+					text)
+				]);
 		} else {
 			var newSize = size / 2;
 			return A2(
@@ -8857,8 +8756,16 @@ var _furrary$react_fiber_demo$ReactFiber$sierpinskiTriangle = F5(
 					A5(_furrary$react_fiber_demo$ReactFiber$sierpinskiTriangle, hoveredNode, x + newSize, y + (newSize / 2), newSize, text)));
 		}
 	});
+var _furrary$react_fiber_demo$ReactFiber$sierpinskiWrapper = F2(
+	function (hoveredNode, text) {
+		return A2(
+			_elm_lang$html$Html$div,
+			_elm_lang$core$Native_List.fromArray(
+				[]),
+			A5(_furrary$react_fiber_demo$ReactFiber$sierpinskiTriangle, hoveredNode, 0, 0, 1000, text));
+	});
 var _furrary$react_fiber_demo$ReactFiber$view = function (model) {
-	var elapsedTime = _elm_lang$core$Time$inSeconds(model.currentTime - model.startTime);
+	var elapsedTime = _elm_lang$core$Time$inSeconds(model.currentTime) - model.startTime;
 	var remainder = elapsedTime - _elm_lang$core$Basics$toFloat(
 		((_elm_lang$core$Basics$floor(elapsedTime) / 10) | 0) * 10);
 	var scale = 1 + (((_elm_lang$core$Native_Utils.cmp(remainder, 5) > 0) ? (10 - remainder) : remainder) / 10);
@@ -8871,31 +8778,24 @@ var _furrary$react_fiber_demo$ReactFiber$view = function (model) {
 			') scaleY(0.7) translateZ(0.1px)'));
 	return A2(
 		_elm_lang$html$Html$div,
-		{
-			ctor: '::',
-			_0: _elm_lang$html$Html_Attributes$style(
+		_elm_lang$core$Native_List.fromArray(
+			[
+				_elm_lang$html$Html_Attributes$style(
 				{
 					ctor: '::',
 					_0: {ctor: '_Tuple2', _0: 'transform', _1: transform},
 					_1: _furrary$react_fiber_demo$ReactFiber$containerStyleList
-				}),
-			_1: {ctor: '[]'}
-		},
-		{
-			ctor: '::',
-			_0: A2(
-				_elm_lang$html$Html$div,
-				{ctor: '[]'},
-				A5(
-					_furrary$react_fiber_demo$ReactFiber$sierpinskiTriangle,
-					model.hoveredNode,
-					0,
-					0,
-					1000,
-					_elm_lang$core$Basics$toString(
-						_elm_lang$core$Basics$floor(remainder)))),
-			_1: {ctor: '[]'}
-		});
+				})
+			]),
+		_elm_lang$core$Native_List.fromArray(
+			[
+				A3(
+				_elm_lang$html$Html_Lazy$lazy2,
+				_furrary$react_fiber_demo$ReactFiber$sierpinskiWrapper,
+				model.hoveredNode,
+				_elm_lang$core$Basics$toString(
+					_elm_lang$core$Basics$floor(remainder)))
+			]));
 };
 var _furrary$react_fiber_demo$ReactFiber$SetCurrentTime = function (a) {
 	return {ctor: 'SetCurrentTime', _0: a};
@@ -8907,13 +8807,10 @@ var _furrary$react_fiber_demo$ReactFiber$update = F2(
 			var _p4 = msg;
 			switch (_p4.ctor) {
 				case 'SetStartTime':
-					var _p5 = _p4._0;
-					var _v2 = _furrary$react_fiber_demo$ReactFiber$SetCurrentTime(_p5),
+					var _v2 = _furrary$react_fiber_demo$ReactFiber$SetCurrentTime(_p4._0),
 						_v3 = _elm_lang$core$Native_Utils.update(
 						model,
-						{
-							startTime: _elm_lang$core$Native_Utils.eq(model.startTime, 0) ? _p5 : model.startTime
-						});
+						{startTime: model.startTime});
 					msg = _v2;
 					model = _v3;
 					continue update;
@@ -8947,12 +8844,12 @@ var _furrary$react_fiber_demo$ReactFiber$update = F2(
 			}
 		}
 	});
-var _furrary$react_fiber_demo$ReactFiber$SetStartTime = function (a) {
-	return {ctor: 'SetStartTime', _0: a};
-};
 var _furrary$react_fiber_demo$ReactFiber$subscriptions = function (model) {
 	var fps = 60;
-	return A2(_elm_lang$core$Time$every, _elm_lang$core$Time$second / fps, _furrary$react_fiber_demo$ReactFiber$SetStartTime);
+	return A2(_elm_lang$core$Time$every, _elm_lang$core$Time$second / fps, _furrary$react_fiber_demo$ReactFiber$SetCurrentTime);
+};
+var _furrary$react_fiber_demo$ReactFiber$SetStartTime = function (a) {
+	return {ctor: 'SetStartTime', _0: a};
 };
 var _furrary$react_fiber_demo$ReactFiber$init = {
 	ctor: '_Tuple2',
