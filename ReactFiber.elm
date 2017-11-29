@@ -1,5 +1,6 @@
 module ReactFiber exposing (..)
 
+import AnimationFrame
 import Html exposing (..)
 import Html.Attributes exposing (style)
 import Html.Events exposing (onMouseEnter, onMouseLeave)
@@ -165,11 +166,7 @@ sierpinskiTriangle hoveredNode x y size text =
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    let
-        fps =
-            60
-    in
-    Time.every (Time.second / fps) SetCurrentTime
+    AnimationFrame.times SetCurrentTime
 
 
 init : ( Model, Cmd Msg )
