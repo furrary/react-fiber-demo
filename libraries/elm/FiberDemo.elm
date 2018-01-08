@@ -1,4 +1,4 @@
-module ReactFiber exposing (..)
+module FiberDemo exposing (..)
 
 import AnimationFrame
 import Html exposing (..)

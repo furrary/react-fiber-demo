@@ -1,0 +1,11 @@
+{
+    "scripts": {
+        "install-elm-package": "elm-package install -y",
+        "build": "npm run elm-make && cp index.html ../../docs/fiber-demo-elm.html",
+        "elm-make": "elm-make FiberDemo.elm --output=../../docs/fiber-demo-elm.js"
+    },
+    "devDependencies": {
+        "cash-cp": "^0.2.0",
+        "elm": "^0.18.0"
+    }
+}

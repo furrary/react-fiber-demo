@@ -2,7 +2,7 @@
     "version": "1.0.0",
     "summary": "React Fiber Demo with Elm",
     "repository": "https://github.com/furrary/react-fiber-demo.git",
-    "license": "BSD3",
+    "license": "MIT",
     "source-directories": [
         "."
     ],

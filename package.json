@@ -1,0 +1,28 @@
+{
+    "name": "react-fiber-demo",
+    "version": "1.0.0",
+    "description": "React Fiber Demo",
+    "scripts": {
+        "install-all": "npm i && npm run install-elm",
+        "build": "npm run build-elm && npm run build-docs",
+        "start": "cd docs && http-server -o",
+        "install-elm":
+            "cd libraries/elm && npm i && npm run install-elm-package",
+        "build-elm": "cd libraries/elm && npm run build",
+        "build-docs": "cp index.html docs"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/furrary/react-fiber-demo.git"
+    },
+    "author": "Feu",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/furrary/react-fiber-demo/issues"
+    },
+    "homepage": "https://github.com/furrary/react-fiber-demo#readme",
+    "devDependencies": {
+        "cash-cp": "^0.2.0",
+        "http-server": "^0.10.0"
+    }
+}
