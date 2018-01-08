@@ -8845,114 +8845,118 @@ var _elm_lang$html$Html_Lazy$lazy3 = _elm_lang$virtual_dom$VirtualDom$lazy3;
 var _elm_lang$html$Html_Lazy$lazy2 = _elm_lang$virtual_dom$VirtualDom$lazy2;
 var _elm_lang$html$Html_Lazy$lazy = _elm_lang$virtual_dom$VirtualDom$lazy;
 
-var _furrary$react_fiber_demo$FiberDemo$dotStyleList = {
-	ctor: '::',
-	_0: {ctor: '_Tuple2', _0: 'position', _1: 'absolute'},
-	_1: {
-		ctor: '::',
-		_0: {ctor: '_Tuple2', _0: 'font', _1: 'normal 15px sans-serif'},
-		_1: {
-			ctor: '::',
-			_0: {ctor: '_Tuple2', _0: 'textAlign', _1: 'center'},
-			_1: {
-				ctor: '::',
-				_0: {ctor: '_Tuple2', _0: 'cursor', _1: 'pointer'},
-				_1: {ctor: '[]'}
-			}
-		}
-	}
-};
-var _furrary$react_fiber_demo$FiberDemo$containerStyleList = {
-	ctor: '::',
-	_0: {ctor: '_Tuple2', _0: 'position', _1: 'absolute'},
-	_1: {
-		ctor: '::',
-		_0: {ctor: '_Tuple2', _0: 'transformOrigin', _1: '0 0'},
-		_1: {
-			ctor: '::',
-			_0: {ctor: '_Tuple2', _0: 'left', _1: '50%'},
-			_1: {
-				ctor: '::',
-				_0: {ctor: '_Tuple2', _0: 'top', _1: '50%'},
-				_1: {
-					ctor: '::',
-					_0: {ctor: '_Tuple2', _0: 'width', _1: '10px'},
-					_1: {
-						ctor: '::',
-						_0: {ctor: '_Tuple2', _0: 'height', _1: '10px'},
-						_1: {
-							ctor: '::',
-							_0: {ctor: '_Tuple2', _0: 'background', _1: '#eee'},
-							_1: {ctor: '[]'}
-						}
-					}
-				}
-			}
-		}
-	}
-};
-var _furrary$react_fiber_demo$FiberDemo$targetSize = 25;
-var _furrary$react_fiber_demo$FiberDemo$Model = F3(
-	function (a, b, c) {
-		return {startTime: a, currentTime: b, hoveredNode: c};
+var _furrary$react_fiber_demo$FiberDemo$fmod = F2(
+	function (a, b) {
+		return (a - _elm_lang$core$Basics$toFloat(
+			_elm_lang$core$Basics$floor(a))) + _elm_lang$core$Basics$toFloat(
+			A2(
+				_elm_lang$core$Basics_ops['%'],
+				_elm_lang$core$Basics$floor(a),
+				b));
 	});
-var _furrary$react_fiber_demo$FiberDemo$UnHover = {ctor: 'UnHover'};
-var _furrary$react_fiber_demo$FiberDemo$Hover = function (a) {
-	return {ctor: 'Hover', _0: a};
+var _furrary$react_fiber_demo$FiberDemo$px = function (_p0) {
+	return A3(
+		_elm_lang$core$Basics$flip,
+		F2(
+			function (x, y) {
+				return A2(_elm_lang$core$Basics_ops['++'], x, y);
+			}),
+		'px',
+		_elm_lang$core$Basics$toString(_p0));
 };
-var _furrary$react_fiber_demo$FiberDemo$dot = F3(
-	function (isHovered, _p0, text) {
-		var _p1 = _p0;
-		var _p3 = _p1._1;
-		var _p2 = _p1._0;
-		var size = _furrary$react_fiber_demo$FiberDemo$targetSize * 1.3;
+var _furrary$react_fiber_demo$FiberDemo$update = F2(
+	function (msg, model) {
+		var _p1 = msg;
+		switch (_p1.ctor) {
+			case 'AddElapsedTime':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							elapsedSecond: model.elapsedSecond + _elm_lang$core$Time$inSeconds(_p1._0)
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'HoverDot':
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{
+							hoveredDotPosition: _elm_lang$core$Maybe$Just(_p1._0)
+						}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			default:
+				return {
+					ctor: '_Tuple2',
+					_0: _elm_lang$core$Native_Utils.update(
+						model,
+						{hoveredDotPosition: _elm_lang$core$Maybe$Nothing}),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+		}
+	});
+var _furrary$react_fiber_demo$FiberDemo$targetSize = 25;
+var _furrary$react_fiber_demo$FiberDemo$init = {
+	ctor: '_Tuple2',
+	_0: {elapsedSecond: 0, hoveredDotPosition: _elm_lang$core$Maybe$Nothing},
+	_1: _elm_lang$core$Platform_Cmd$none
+};
+var _furrary$react_fiber_demo$FiberDemo$Model = F2(
+	function (a, b) {
+		return {elapsedSecond: a, hoveredDotPosition: b};
+	});
+var _furrary$react_fiber_demo$FiberDemo$UnHoverDot = {ctor: 'UnHoverDot'};
+var _furrary$react_fiber_demo$FiberDemo$HoverDot = function (a) {
+	return {ctor: 'HoverDot', _0: a};
+};
+var _furrary$react_fiber_demo$FiberDemo$viewDot = F3(
+	function (hoveredDotPosition, text, _p2) {
+		var _p3 = _p2;
+		var _p5 = _p3._1;
+		var _p4 = _p3._0;
+		var dotSize = _furrary$react_fiber_demo$FiberDemo$targetSize * 1.3;
+		var isHovered = _elm_lang$core$Native_Utils.eq(
+			hoveredDotPosition,
+			_elm_lang$core$Maybe$Just(
+				{ctor: '_Tuple2', _0: _p4, _1: _p5}));
 		return A2(
 			_elm_lang$html$Html$div,
 			{
 				ctor: '::',
 				_0: _elm_lang$html$Html_Attributes$style(
-					A2(
-						_elm_lang$core$Basics_ops['++'],
-						_furrary$react_fiber_demo$FiberDemo$dotStyleList,
-						{
+					{
+						ctor: '::',
+						_0: {ctor: '_Tuple2', _0: 'position', _1: 'absolute'},
+						_1: {
 							ctor: '::',
 							_0: {
 								ctor: '_Tuple2',
-								_0: 'width',
-								_1: A2(
-									_elm_lang$core$Basics_ops['++'],
-									_elm_lang$core$Basics$toString(size),
-									'px')
+								_0: 'left',
+								_1: _furrary$react_fiber_demo$FiberDemo$px(_p4)
 							},
 							_1: {
 								ctor: '::',
 								_0: {
 									ctor: '_Tuple2',
-									_0: 'height',
-									_1: A2(
-										_elm_lang$core$Basics_ops['++'],
-										_elm_lang$core$Basics$toString(size),
-										'px')
+									_0: 'top',
+									_1: _furrary$react_fiber_demo$FiberDemo$px(_p5)
 								},
 								_1: {
 									ctor: '::',
 									_0: {
 										ctor: '_Tuple2',
-										_0: 'left',
-										_1: A2(
-											_elm_lang$core$Basics_ops['++'],
-											_elm_lang$core$Basics$toString(_p2),
-											'px')
+										_0: 'width',
+										_1: _furrary$react_fiber_demo$FiberDemo$px(dotSize)
 									},
 									_1: {
 										ctor: '::',
 										_0: {
 											ctor: '_Tuple2',
-											_0: 'top',
-											_1: A2(
-												_elm_lang$core$Basics_ops['++'],
-												_elm_lang$core$Basics$toString(_p3),
-												'px')
+											_0: 'height',
+											_1: _furrary$react_fiber_demo$FiberDemo$px(dotSize)
 										},
 										_1: {
 											ctor: '::',
@@ -8961,35 +8965,45 @@ var _furrary$react_fiber_demo$FiberDemo$dot = F3(
 												ctor: '::',
 												_0: {
 													ctor: '_Tuple2',
-													_0: 'lineHeight',
-													_1: A2(
-														_elm_lang$core$Basics_ops['++'],
-														_elm_lang$core$Basics$toString(size),
-														'px')
+													_0: 'background',
+													_1: isHovered ? '#ff0' : '#61dafb'
 												},
 												_1: {
 													ctor: '::',
-													_0: {
-														ctor: '_Tuple2',
-														_0: 'background',
-														_1: isHovered ? '#ff0' : '#61dafb'
-													},
-													_1: {ctor: '[]'}
+													_0: {ctor: '_Tuple2', _0: 'font', _1: 'normal 15px sans-serif'},
+													_1: {
+														ctor: '::',
+														_0: {ctor: '_Tuple2', _0: 'textAlign', _1: 'center'},
+														_1: {
+															ctor: '::',
+															_0: {ctor: '_Tuple2', _0: 'cursor', _1: 'pointer'},
+															_1: {
+																ctor: '::',
+																_0: {
+																	ctor: '_Tuple2',
+																	_0: 'lineHeight',
+																	_1: _furrary$react_fiber_demo$FiberDemo$px(dotSize)
+																},
+																_1: {ctor: '[]'}
+															}
+														}
+													}
 												}
 											}
 										}
 									}
 								}
 							}
-						})),
+						}
+					}),
 				_1: {
 					ctor: '::',
 					_0: _elm_lang$html$Html_Events$onMouseEnter(
-						_furrary$react_fiber_demo$FiberDemo$Hover(
-							{ctor: '_Tuple2', _0: _p2, _1: _p3})),
+						_furrary$react_fiber_demo$FiberDemo$HoverDot(
+							{ctor: '_Tuple2', _0: _p4, _1: _p5})),
 					_1: {
 						ctor: '::',
-						_0: _elm_lang$html$Html_Events$onMouseLeave(_furrary$react_fiber_demo$FiberDemo$UnHover),
+						_0: _elm_lang$html$Html_Events$onMouseLeave(_furrary$react_fiber_demo$FiberDemo$UnHoverDot),
 						_1: {ctor: '[]'}
 					}
 				}
@@ -9004,50 +9018,57 @@ var _furrary$react_fiber_demo$FiberDemo$dot = F3(
 				_1: {ctor: '[]'}
 			});
 	});
-var _furrary$react_fiber_demo$FiberDemo$sierpinskiTriangle = F5(
-	function (hoveredNode, x, y, size, text) {
+var _furrary$react_fiber_demo$FiberDemo$viewTriangle = F4(
+	function (hoveredDotPosition, text, size, _p6) {
+		var _p7 = _p6;
+		var _p9 = _p7._1;
+		var _p8 = _p7._0;
 		if (_elm_lang$core$Native_Utils.cmp(size, _furrary$react_fiber_demo$FiberDemo$targetSize) < 1) {
-			var coord = {ctor: '_Tuple2', _0: x - (_furrary$react_fiber_demo$FiberDemo$targetSize / 2), _1: y - (_furrary$react_fiber_demo$FiberDemo$targetSize / 2)};
 			return {
 				ctor: '::',
 				_0: A3(
-					_furrary$react_fiber_demo$FiberDemo$dot,
-					_elm_lang$core$Native_Utils.eq(
-						hoveredNode,
-						_elm_lang$core$Maybe$Just(coord)),
-					coord,
-					text),
+					_furrary$react_fiber_demo$FiberDemo$viewDot,
+					hoveredDotPosition,
+					text,
+					{ctor: '_Tuple2', _0: _p8 - (_furrary$react_fiber_demo$FiberDemo$targetSize / 2), _1: _p9 - (_furrary$react_fiber_demo$FiberDemo$targetSize / 2)}),
 				_1: {ctor: '[]'}
 			};
 		} else {
 			var newSize = size / 2;
+			var viewTriangle_ = A3(_furrary$react_fiber_demo$FiberDemo$viewTriangle, hoveredDotPosition, text, newSize);
 			return A2(
 				_elm_lang$core$Basics_ops['++'],
-				A5(_furrary$react_fiber_demo$FiberDemo$sierpinskiTriangle, hoveredNode, x, y - (newSize / 2), newSize, text),
+				viewTriangle_(
+					{ctor: '_Tuple2', _0: _p8, _1: _p9 - (newSize / 2)}),
 				A2(
 					_elm_lang$core$Basics_ops['++'],
-					A5(_furrary$react_fiber_demo$FiberDemo$sierpinskiTriangle, hoveredNode, x - newSize, y + (newSize / 2), newSize, text),
-					A5(_furrary$react_fiber_demo$FiberDemo$sierpinskiTriangle, hoveredNode, x + newSize, y + (newSize / 2), newSize, text)));
+					viewTriangle_(
+						{ctor: '_Tuple2', _0: _p8 - newSize, _1: _p9 + (newSize / 2)}),
+					viewTriangle_(
+						{ctor: '_Tuple2', _0: _p8 + newSize, _1: _p9 + (newSize / 2)})));
 		}
 	});
-var _furrary$react_fiber_demo$FiberDemo$sierpinskiWrapper = F2(
-	function (hoveredNode, text) {
+var _furrary$react_fiber_demo$FiberDemo$viewWrappedTriangle = F2(
+	function (hoveredDotPosition, text) {
 		return A2(
 			_elm_lang$html$Html$div,
 			{ctor: '[]'},
-			A5(_furrary$react_fiber_demo$FiberDemo$sierpinskiTriangle, hoveredNode, 0, 0, 1000, text));
+			A4(
+				_furrary$react_fiber_demo$FiberDemo$viewTriangle,
+				hoveredDotPosition,
+				text,
+				1000,
+				{ctor: '_Tuple2', _0: 0, _1: 0}));
 	});
 var _furrary$react_fiber_demo$FiberDemo$view = function (model) {
-	var elapsedTime = _elm_lang$core$Time$inSeconds(model.currentTime) - model.startTime;
-	var remainder = elapsedTime - _elm_lang$core$Basics$toFloat(
-		((_elm_lang$core$Basics$floor(elapsedTime) / 10) | 0) * 10);
-	var scale = 1 + (((_elm_lang$core$Native_Utils.cmp(remainder, 5) > 0) ? (10 - remainder) : remainder) / 10);
-	var transform = A2(
+	var remainder = A2(_furrary$react_fiber_demo$FiberDemo$fmod, model.elapsedSecond, 10);
+	var scaleXFactor = (1 + ((5 - _elm_lang$core$Basics$abs(5 - remainder)) / 10)) / 2.1;
+	var transformFunction = A2(
 		_elm_lang$core$Basics_ops['++'],
 		'scaleX(',
 		A2(
 			_elm_lang$core$Basics_ops['++'],
-			_elm_lang$core$Basics$toString(scale / 2.1),
+			_elm_lang$core$Basics$toString(scaleXFactor),
 			') scaleY(0.7) translateZ(0.1px)'));
 	return A2(
 		_elm_lang$html$Html$div,
@@ -9056,79 +9077,57 @@ var _furrary$react_fiber_demo$FiberDemo$view = function (model) {
 			_0: _elm_lang$html$Html_Attributes$style(
 				{
 					ctor: '::',
-					_0: {ctor: '_Tuple2', _0: 'transform', _1: transform},
-					_1: _furrary$react_fiber_demo$FiberDemo$containerStyleList
+					_0: {ctor: '_Tuple2', _0: 'position', _1: 'absolute'},
+					_1: {
+						ctor: '::',
+						_0: {ctor: '_Tuple2', _0: 'left', _1: '50%'},
+						_1: {
+							ctor: '::',
+							_0: {ctor: '_Tuple2', _0: 'top', _1: '50%'},
+							_1: {
+								ctor: '::',
+								_0: {ctor: '_Tuple2', _0: 'width', _1: '10px'},
+								_1: {
+									ctor: '::',
+									_0: {ctor: '_Tuple2', _0: 'height', _1: '10px'},
+									_1: {
+										ctor: '::',
+										_0: {ctor: '_Tuple2', _0: 'background', _1: '#eee'},
+										_1: {
+											ctor: '::',
+											_0: {ctor: '_Tuple2', _0: 'transformOrigin', _1: '0 0'},
+											_1: {
+												ctor: '::',
+												_0: {ctor: '_Tuple2', _0: 'transform', _1: transformFunction},
+												_1: {ctor: '[]'}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
 				}),
 			_1: {ctor: '[]'}
 		},
 		{
 			ctor: '::',
-			_0: A3(
-				_elm_lang$html$Html_Lazy$lazy2,
-				_furrary$react_fiber_demo$FiberDemo$sierpinskiWrapper,
-				model.hoveredNode,
-				_elm_lang$core$Basics$toString(
-					_elm_lang$core$Basics$floor(remainder))),
+			_0: function (_p10) {
+				return A3(
+					_elm_lang$html$Html_Lazy$lazy2,
+					_furrary$react_fiber_demo$FiberDemo$viewWrappedTriangle,
+					model.hoveredDotPosition,
+					_elm_lang$core$Basics$toString(_p10));
+			}(
+				_elm_lang$core$Basics$floor(remainder)),
 			_1: {ctor: '[]'}
 		});
 };
-var _furrary$react_fiber_demo$FiberDemo$SetCurrentTime = function (a) {
-	return {ctor: 'SetCurrentTime', _0: a};
+var _furrary$react_fiber_demo$FiberDemo$AddElapsedTime = function (a) {
+	return {ctor: 'AddElapsedTime', _0: a};
 };
-var _furrary$react_fiber_demo$FiberDemo$update = F2(
-	function (msg, model) {
-		update:
-		while (true) {
-			var _p4 = msg;
-			switch (_p4.ctor) {
-				case 'SetStartTime':
-					var _v2 = _furrary$react_fiber_demo$FiberDemo$SetCurrentTime(_p4._0),
-						_v3 = _elm_lang$core$Native_Utils.update(
-						model,
-						{startTime: model.startTime});
-					msg = _v2;
-					model = _v3;
-					continue update;
-				case 'SetCurrentTime':
-					return {
-						ctor: '_Tuple2',
-						_0: _elm_lang$core$Native_Utils.update(
-							model,
-							{currentTime: _p4._0}),
-						_1: _elm_lang$core$Platform_Cmd$none
-					};
-				case 'Hover':
-					return {
-						ctor: '_Tuple2',
-						_0: _elm_lang$core$Native_Utils.update(
-							model,
-							{
-								hoveredNode: _elm_lang$core$Maybe$Just(
-									{ctor: '_Tuple2', _0: _p4._0._0, _1: _p4._0._1})
-							}),
-						_1: _elm_lang$core$Platform_Cmd$none
-					};
-				default:
-					return {
-						ctor: '_Tuple2',
-						_0: _elm_lang$core$Native_Utils.update(
-							model,
-							{hoveredNode: _elm_lang$core$Maybe$Nothing}),
-						_1: _elm_lang$core$Platform_Cmd$none
-					};
-			}
-		}
-	});
-var _furrary$react_fiber_demo$FiberDemo$subscriptions = function (model) {
-	return _elm_lang$animation_frame$AnimationFrame$times(_furrary$react_fiber_demo$FiberDemo$SetCurrentTime);
-};
-var _furrary$react_fiber_demo$FiberDemo$SetStartTime = function (a) {
-	return {ctor: 'SetStartTime', _0: a};
-};
-var _furrary$react_fiber_demo$FiberDemo$init = {
-	ctor: '_Tuple2',
-	_0: {startTime: 0, currentTime: 0, hoveredNode: _elm_lang$core$Maybe$Nothing},
-	_1: A2(_elm_lang$core$Task$perform, _furrary$react_fiber_demo$FiberDemo$SetStartTime, _elm_lang$core$Time$now)
+var _furrary$react_fiber_demo$FiberDemo$subscriptions = function (_p11) {
+	return _elm_lang$animation_frame$AnimationFrame$diffs(_furrary$react_fiber_demo$FiberDemo$AddElapsedTime);
 };
 var _furrary$react_fiber_demo$FiberDemo$main = _elm_lang$html$Html$program(
 	{init: _furrary$react_fiber_demo$FiberDemo$init, view: _furrary$react_fiber_demo$FiberDemo$view, update: _furrary$react_fiber_demo$FiberDemo$update, subscriptions: _furrary$react_fiber_demo$FiberDemo$subscriptions})();

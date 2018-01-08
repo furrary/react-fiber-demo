@@ -1,11 +1,10 @@
 module FiberDemo exposing (..)
 
 import AnimationFrame
-import Html exposing (..)
+import Html exposing (Html, div)
 import Html.Attributes exposing (style)
 import Html.Events exposing (onMouseEnter, onMouseLeave)
 import Html.Lazy as Lazy
-import Task
 import Time exposing (Time)
 
 
@@ -19,34 +18,27 @@ main =
         }
 
 
+
+-- MODEL --
+
+
 type alias Model =
-    { startTime : Time
-    , currentTime : Time
-    , hoveredNode : Maybe ( Float, Float )
+    { elapsedSecond : Time
+    , hoveredDotPosition : Maybe Position
     }
 
 
-type Msg
-    = SetStartTime Time
-    | SetCurrentTime Time
-    | Hover ( Float, Float )
-    | UnHover
+init : ( Model, Cmd Msg )
+init =
+    ( { elapsedSecond = 0
+      , hoveredDotPosition = Nothing
+      }
+    , Cmd.none
+    )
 
 
-update : Msg -> Model -> ( Model, Cmd Msg )
-update msg model =
-    case msg of
-        SetStartTime time ->
-            update (SetCurrentTime time) { model | startTime = model.startTime }
-
-        SetCurrentTime time ->
-            ( { model | currentTime = time }, Cmd.none )
-
-        Hover ( x, y ) ->
-            ( { model | hoveredNode = Just ( x, y ) }, Cmd.none )
-
-        UnHover ->
-            ( { model | hoveredNode = Nothing }, Cmd.none )
+type alias Position =
+    ( Float, Float )
 
 
 targetSize : Float
@@ -54,83 +46,122 @@ targetSize =
     25
 
 
-containerStyleList : List ( String, String )
-containerStyleList =
-    [ ( "position", "absolute" )
-    , ( "transformOrigin", "0 0" )
-    , ( "left", "50%" )
-    , ( "top", "50%" )
-    , ( "width", "10px" )
-    , ( "height", "10px" )
-    , ( "background", "#eee" )
-    ]
+
+-- UPDATE --
+
+
+type Msg
+    = AddElapsedTime Time
+    | HoverDot Position
+    | UnHoverDot
+
+
+update : Msg -> Model -> ( Model, Cmd Msg )
+update msg model =
+    case msg of
+        AddElapsedTime time ->
+            ( { model | elapsedSecond = model.elapsedSecond + Time.inSeconds time }, Cmd.none )
+
+        HoverDot position ->
+            ( { model | hoveredDotPosition = Just position }, Cmd.none )
+
+        UnHoverDot ->
+            ( { model | hoveredDotPosition = Nothing }, Cmd.none )
+
+
+
+-- SUBSCRIPTIONS --
+
+
+subscriptions : Model -> Sub Msg
+subscriptions _ =
+    AnimationFrame.diffs AddElapsedTime
+
+
+
+-- VIEW --
 
 
 view : Model -> Html Msg
 view model =
     let
-        elapsedTime =
-            Time.inSeconds model.currentTime - model.startTime
-
         remainder =
-            elapsedTime
-                - (floor elapsedTime
-                    // 10
-                    * 10
-                    |> toFloat
-                  )
+            fmod model.elapsedSecond 10
 
-        scale =
-            1
-                + (if remainder > 5 then
-                    10 - remainder
-                   else
-                    remainder
-                  )
-                / 10
+        scaleXFactor =
+            (1 + (5 - abs (5 - remainder)) / 10) / 2.1
 
-        transform =
-            "scaleX(" ++ toString (scale / 2.1) ++ ") scaleY(0.7) translateZ(0.1px)"
+        transformFunction =
+            "scaleX(" ++ toString scaleXFactor ++ ") scaleY(0.7) translateZ(0.1px)"
     in
-    div [ style <| ( "transform", transform ) :: containerStyleList ]
-        [ Lazy.lazy2 sierpinskiWrapper model.hoveredNode <| toString <| floor remainder
+    div
+        [ style
+            [ ( "position", "absolute" )
+            , ( "left", "50%" )
+            , ( "top", "50%" )
+            , ( "width", "10px" )
+            , ( "height", "10px" )
+            , ( "background", "#eee" )
+            , ( "transformOrigin", "0 0" )
+            , ( "transform", transformFunction )
+            ]
+        ]
+        [ Lazy.lazy2 viewWrappedTriangle model.hoveredDotPosition << toString <| floor remainder
         ]
 
 
-dotStyleList : List ( String, String )
-dotStyleList =
-    [ ( "position", "absolute" )
-    , ( "font", "normal 15px sans-serif" )
-    , ( "textAlign", "center" )
-    , ( "cursor", "pointer" )
-    ]
+viewWrappedTriangle : Maybe Position -> String -> Html Msg
+viewWrappedTriangle hoveredDotPosition text =
+    div [] <| viewTriangle hoveredDotPosition text 1000 ( 0, 0 )
 
 
-dot : Bool -> ( Float, Float ) -> String -> Html Msg
-dot isHovered ( x, y ) text =
+viewTriangle : Maybe Position -> String -> Float -> Position -> List (Html Msg)
+viewTriangle hoveredDotPosition text size ( x, y ) =
+    if size <= targetSize then
+        [ viewDot hoveredDotPosition text ( x - targetSize / 2, y - targetSize / 2 ) ]
+    else
+        let
+            newSize =
+                size / 2
+
+            viewTriangle_ =
+                viewTriangle hoveredDotPosition text newSize
+        in
+        viewTriangle_ ( x, y - newSize / 2 )
+            ++ viewTriangle_ ( x - newSize, y + newSize / 2 )
+            ++ viewTriangle_ ( x + newSize, y + newSize / 2 )
+
+
+viewDot : Maybe Position -> String -> Position -> Html Msg
+viewDot hoveredDotPosition text ( x, y ) =
     let
-        size =
+        isHovered =
+            hoveredDotPosition == Just ( x, y )
+
+        dotSize =
             targetSize * 1.3
     in
     div
         [ style
-            (dotStyleList
-                ++ [ ( "width", toString size ++ "px" )
-                   , ( "height", toString size ++ "px" )
-                   , ( "left", toString x ++ "px" )
-                   , ( "top", toString y ++ "px" )
-                   , ( "border-radius", "50%" )
-                   , ( "lineHeight", toString size ++ "px" )
-                   , ( "background"
-                     , if isHovered then
-                        "#ff0"
-                       else
-                        "#61dafb"
-                     )
-                   ]
-            )
-        , onMouseEnter <| Hover ( x, y )
-        , onMouseLeave UnHover
+            [ ( "position", "absolute" )
+            , ( "left", px x )
+            , ( "top", px y )
+            , ( "width", px dotSize )
+            , ( "height", px dotSize )
+            , ( "border-radius", "50%" )
+            , ( "background"
+              , if isHovered then
+                    "#ff0"
+                else
+                    "#61dafb"
+              )
+            , ( "font", "normal 15px sans-serif" )
+            , ( "textAlign", "center" )
+            , ( "cursor", "pointer" )
+            , ( "lineHeight", px dotSize )
+            ]
+        , onMouseEnter <| HoverDot ( x, y )
+        , onMouseLeave UnHoverDot
         ]
         [ Html.text
             (if isHovered then
@@ -141,39 +172,15 @@ dot isHovered ( x, y ) text =
         ]
 
 
-sierpinskiWrapper : Maybe ( Float, Float ) -> String -> Html Msg
-sierpinskiWrapper hoveredNode text =
-    div [] <| sierpinskiTriangle hoveredNode 0 0 1000 text
+
+-- INTERNAL --
 
 
-sierpinskiTriangle : Maybe ( Float, Float ) -> Float -> Float -> Float -> String -> List (Html Msg)
-sierpinskiTriangle hoveredNode x y size text =
-    if size <= targetSize then
-        let
-            coord =
-                ( x - targetSize / 2, y - targetSize / 2 )
-        in
-        [ dot (hoveredNode == Just coord) coord text ]
-    else
-        let
-            newSize =
-                size / 2
-        in
-        sierpinskiTriangle hoveredNode x (y - newSize / 2) newSize text
-            ++ sierpinskiTriangle hoveredNode (x - newSize) (y + newSize / 2) newSize text
-            ++ sierpinskiTriangle hoveredNode (x + newSize) (y + newSize / 2) newSize text
+px : number -> String
+px =
+    toString >> flip (++) "px"
 
 
-subscriptions : Model -> Sub Msg
-subscriptions model =
-    AnimationFrame.times SetCurrentTime
-
-
-init : ( Model, Cmd Msg )
-init =
-    ( { startTime = 0
-      , currentTime = 0
-      , hoveredNode = Nothing
-      }
-    , Task.perform SetStartTime Time.now
-    )
+fmod : Float -> Int -> Float
+fmod a b =
+    a - toFloat (floor a) + toFloat (floor a % b)
