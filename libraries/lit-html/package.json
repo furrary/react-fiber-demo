@@ -1,0 +1,14 @@
+{
+    "scripts": {
+        "build":
+            "rollup -c && cp index.html ../../docs/fiber-demo-lit-html.html"
+    },
+    "dependencies": {
+        "lit-html": "^0.8.0"
+    },
+    "devDependencies": {
+        "cash-cp": "^0.2.0",
+        "rollup": "^0.54.0",
+        "rollup-plugin-node-resolve": "^3.0.2"
+    }
+}

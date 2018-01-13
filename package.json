@@ -3,13 +3,16 @@
     "version": "1.0.0",
     "description": "React Fiber Demo",
     "scripts": {
-        "install-all": "npm i && npm run install-elm",
+        "install-all":
+            "npm i && npm run install-elm && npm run install-lit-html",
         "build":
-            "npm run build-elm && npm run build-vanilla && npm run build-docs",
+            "npm run build-elm && npm run build-lit-html && npm run build-vanilla && npm run build-docs",
         "start": "cd docs && http-server -o",
         "install-elm":
             "cd libraries/elm && npm i && npm run install-elm-package",
+        "install-lit-html": "cd libraries/lit-html && npm i",
         "build-elm": "cd libraries/elm && npm run build",
+        "build-lit-html": "cd libraries/lit-html && npm run build",
         "build-vanilla": "cd libraries/vanilla && npm run build",
         "build-docs": "cp index.html docs"
     },
