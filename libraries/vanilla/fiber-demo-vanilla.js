@@ -7,7 +7,15 @@ const dotSize = targetSize * 1.3;
 /* MAIN */
 
 const container = document.querySelector("#container");
-setContainerDefaultStyle();
+container.style = `
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 10px;
+    height: 10px;
+    background: #eee;
+    transform-origin: 0 0;
+`;
 
 // Create a wrapped triangle only to replicate the Elm implementation.
 const wrappedTriangle = document.createElement("div");
@@ -63,29 +71,17 @@ function createDotList(size = 1000, x = 0, y = 0) {
 function createDot(x, y) {
     const dot = document.createElement("div");
     dot.style = `
-            position: absolute;
-            left: ${x}px;
-            top: ${y}px;
-            width: ${dotSize}px;
-            height: ${dotSize}px;
-            border-radius: 50%;
-            background: #61dafb;
-            font: normal 15px sans-serif;
-            text-align: center;
-            cursor: pointer;
-            line-height: ${dotSize}px;
-        `;
-    return dot;
-}
-
-function setContainerDefaultStyle() {
-    container.style = `
         position: absolute;
-        left: 50%;
-        top: 50%;
-        width: 10px;
-        height: 10px;
-        background: #eee;
-        transform-origin: 0 0;
+        left: ${x}px;
+        top: ${y}px;
+        width: ${dotSize}px;
+        height: ${dotSize}px;
+        border-radius: 50%;
+        background: #61dafb;
+        font: normal 15px sans-serif;
+        text-align: center;
+        cursor: pointer;
+        line-height: ${dotSize}px;
     `;
+    return dot;
 }
