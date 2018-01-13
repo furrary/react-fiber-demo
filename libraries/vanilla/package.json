@@ -1,0 +1,9 @@
+{
+    "scripts": {
+        "build":
+            "cp index.html ../../docs/fiber-demo-vanilla.html && cp fiber-demo-vanilla.js ../../docs"
+    },
+    "devDependencies": {
+        "cash-cp": "^0.2.0"
+    }
+}
